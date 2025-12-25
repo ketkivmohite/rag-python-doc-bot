@@ -1,50 +1,35 @@
-# rag-python-doc-bot
-
 # Python Documentation Q/A Bot using Retrieval Augmented Generation (RAG)
 
-## Project Purpose
-This beginner-friendly project implements a **RAG-based Question Answering bot** that retrieves knowledge from the official Python documentation website and generates accurate, context-grounded answers using a Transformer LLM.
+## Overview
+This project implements a simple and fully working **Retrieval Augmented Generation (RAG) Question Answering pipeline** that retrieves knowledge from the official **Python 3 Tutorial documentation website** and generates **grounded, context-based answers** using a lightweight open Transformer LLM.
 
-The goal is to understand the full working of:
-- **Semantic search**
-- **Embeddings**
-- **Vector databases**
-- **Retrieval + generation grounding**
-- **LLM prompt augmentation**
+The bot behaves like an **open-book assistant** — it first retrieves the most relevant documentation sections by meaning (semantic search) and then answers only from that context instead of relying on model memory or guessing.
 
-## How RAG Works (Simple Explanation)
-RAG (Retrieval Augmented Generation) makes an AI behave like an **open-book exam solver**:
-1. It first **reads a knowledge source** (your website — here Python docs)
-2. It **splits the text into small chunks**
-3. It **converts chunks into meaning-vectors** using embeddings
-4. It stores them in a **vector database** (ChromaDB)
-5. When you ask a question, it:
-   - **Searches the DB for relevant info by meaning**
-   - **Injects that info into the prompt**
-   - **LLM answers using only that retrieved context**
+## What This RAG Pipeline Does
+- Loads text content from Python documentation webpages  
+- Splits the content into small overlapping chunks  
+- Converts chunks into **semantic embeddings (meaning vectors)**  
+- Stores vectors in **ChromaDB (local vector database)**  
+- Retrieves the most relevant chunks for a user question using **semantic similarity search**  
+- Injects retrieved context into the LLM prompt  
+- Generates a grounded answer using **google/flan-t5-base** (open, instruction-tuned model)
 
-So yes — instead of guessing from memory, the bot answers based on your website knowledge.
+## RAG Build Steps (In Words Only)
+Load docs → Chunk text → Create embeddings → Store vectors → Retrieve relevant chunks → Answer from context only
 
-## Tech Stack Used
-- `LangChain Community` → Loads website text & manages retrieval interface
-- `sentence-transformers/all-MiniLM-L6-v2` → Creates semantic embeddings
-- `ChromaDB` → Vector database for storing & searching knowledge chunks
-- `Flan-T5-Base` LLM → Generates grounded Q/A answers
-- `Google Colab` → Development and learning environment
-- `GitHub` → Project hosting and portfolio visibility
+## Tech Stack
+- **LangChain Community** → Document loading & retriever interface  
+- **Sentence Transformers** → `all-MiniLM-L6-v2` embedding model  
+- **ChromaDB** → Vector storage & semantic search  
+- **Hugging Face Transformers** → `flan-t5-base` LLM for grounded Q/A  
+- **PyTorch** → Model acceleration (CPU/GPU auto-handled)  
+- **Google Colab** → Development & pipeline prototyping  
+- **GitHub** → Project hosting & portfolio visibility  
 
-## What This Project Demonstrates
-- Website scraping as knowledge source
-- Document chunking with overlap
-- Embedding creation (text → vectors)
-- Vector DB storage & semantic retrieval
-- LLM prompt augmentation for grounded answers
-- End-to-end RAG pipeline flow
+## Example Query
+**Question:** What are Python lists?  
+**Answer:** A list is a versatile compound data structure written inside square brackets `[ ]` that holds comma-separated items and can contain the same or mixed data types.
 
-## Example
-**Q:** What are Python lists?  
-**A:** A list is a compound, versatile data structure written inside square brackets `[ ]`, holding comma-separated items that can be of same or mixed data types.
-
-## Setup Instructions (Run in Colab)
+## Installation (For Google Colab)
 ```python
-!pip install langchain langchain-community chromadb sentence-transformers transformers accelerate
+!pip install langchain-community chromadb sentence-transformers transformers accelerate torch
